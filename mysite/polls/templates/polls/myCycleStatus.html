@@ -1,0 +1,60 @@
+{% csrf_token %}
+<form method="get" action="/polls/profile">
+	<button type="submit">Home</button>
+</form>
+<form method="get" action="/polls/signout">
+	<button type="submit">Sign Out</button>
+</form>
+<hr>
+
+<h2>My Cycles Status</h2>
+
+<table>
+	<tr>
+		<th>Cycle Brand</th>
+		<th>Cycle Type</th>
+		<th>Is Available</th>
+		<th>Change Status</th>
+	</tr>
+	{% for i in freeCycles %}
+	<tr>
+		<td>
+			{{i.cycle_brand}} 
+		</td>
+		<td>
+			{{i.cycle_type}} 
+		</td>
+		<td>Yes</td>
+		<td>
+			<form method="post" action="/polls/makenotAvailable">
+				{%csrf_token%}
+				<input type="hidden" name="id" value={{i.id}}>
+				<button type="submit">Lock My Cycle</button>
+			</form>
+		</td>
+	</tr>
+	{% endfor %}
+
+	{% for i in lockedCycles %}
+	<tr>
+		<td>
+			{{i.cycle_brand}} 
+		</td>
+		<td>
+			{{i.cycle_type}} 
+		</td>
+		<td>No</td>
+		<td>
+			<form method="post" action="/polls/makeAvailable">
+				{%csrf_token%}
+				<input type="hidden" name="id" value={{i.id}}>
+				<button type="submit">UnLock My Cycle</button>
+			</form>
+		</td>
+	</tr>
+	{% endfor %}
+
+</table>
+
+
+<hr>

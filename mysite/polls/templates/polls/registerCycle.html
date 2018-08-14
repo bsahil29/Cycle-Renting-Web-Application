@@ -1,0 +1,69 @@
+
+
+
+</body>
+</html>
+
+</!DOCTYPE html>
+<html>
+<head>
+	<script>
+		function validateForm() {
+    var x = document.forms["myForm"]["cycle_brand"].value;
+    var y = document.forms["myForm"]["cycle_type"].value;
+    var z = document.forms["myForm"]["cycle_description"].value;
+	if (x == "") {
+        alert("Cycle Brand must be filled out");
+        return false;
+    }
+    if(x.length>30){
+    	alert("Maximum 30 Characters allowed in Cycle Brand");
+    	return false;
+    }
+    if(x.search(/^[a-zA-Z ]*$/) == -1){
+    	alert("Maximum 30 characters with only english alphabets and space in Cycle Brand");
+    	return false;
+    }
+    if (y == "") {
+        alert("Cycle Type must be filled out");
+        return false;
+    }
+    if(y.length>30){
+        alert("Maximum 30 Characters allowed in Cycle Type");
+        return false;
+    }
+    if(y.search(/^[a-zA-Z ]*$/) == -1){
+        alert("Maximum 30 characters with only english alphabets and space in Type");
+        return false;
+    }
+    if(z.length>100){
+        alert("Maximum 100 Characters allowed in Cycle Description");
+        return false;
+    }
+} 
+	</script>
+	<title></title>
+</head>
+<body>
+
+<h2>Register Cycle</h2>
+<h3>{{ info }}</h1>
+<form name="myForm"  method="post" onsubmit="return validateForm()" action="/polls/registerCycle">
+{% csrf_token %}
+    <table>
+    <td><label>Cycle Brand:</label> </td><td><input type="text" name="cycle_brand" maxlength="30" /></td>
+    </tr>
+    <tr>
+    <td><label>Cycle Type:</label> </td><td><input type="text" name="cycle_type" maxlength="30"/></td>
+    </tr>
+    <tr>
+    <td><label>Cycle Description:</label></td><td> <input type="text" name="cycle_description" /></td>
+    </tr>
+    <br>
+    </table>
+    <button type="submit">Register</button>
+</form>
+</body>
+</html>
+
+

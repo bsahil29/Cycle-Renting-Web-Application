@@ -1,0 +1,174 @@
+{% csrf_token %}
+<h2>Welcome! {{username}}</h2>
+<form method="get" action="/polls/registerCycle">
+	<button type="submit">Register Cycle</button>
+</form>
+<form method="GET" action="/polls/myCycleStatus">
+	<button type="submit">My Cycle Status</button>
+</form>
+
+<form method="get" action="/polls/signout">
+	<button type="submit">Sign Out</button>
+</form>
+<hr>
+
+<h2>Notification</h2>
+<ul>
+	{% for x in myAcceptNotifications %}
+		<li>{{x.name}} has approved your request for cycle: {{x.cycle_brand}}. Contact him at {{x.mobile_no}}</li>
+	{% endfor %}
+	{% for x in myRejectNotifications %}
+		<li>{{x.name}} has declined your request for cycle: {{x.cycle_brand}}.</li>
+	{% endfor %}
+</ul>
+
+<hr>
+<h2>Cycles Available</h2>
+
+<table>
+	<tr>
+		<th>Roll No.</th>
+		<th>Name</th>
+		<th>Hostel</th>
+		<th>Room Number</th>
+		<th>Contact Number</th>
+		<th>Cycle Brand</th>
+		<th>Cycle Type</th>
+		<th>Cycle Description</th>
+		<th>Status</th>
+		<th>Request</th>
+	</tr>
+	{% for i in notRequestedCycles %}
+	<tr>
+		<td>
+			{{i.roll_no}} 
+		</td>
+		<td>
+			{{i.name}} 
+		</td>
+		<td>
+			{{i.hostel}} 
+		</td>
+		<td>
+			{{i.room_no}} 
+		</td>
+		<td>
+			{{i.mobile_no}} 
+		</td>
+
+		<td>
+			{{ i.cycle_brand }}
+			
+		</td>
+		<td>
+			{{ i.cycle_type }}
+			
+		</td>
+		<td>
+			{{ i.cycle_description }}
+		</td>
+		<td>
+			Not Requested
+		</td>
+		<td>
+			<form method="post" action="/polls/requestCycle">
+				{%csrf_token%}
+				<input type="hidden" name="id" value={{i.id}}>
+				<button type="submit">Request</button>
+			</form>
+		</td>
+	</tr>
+	{% endfor %}
+	{% for i in requestedCycles %}
+	<tr>
+		<td>
+			{{i.roll_no}} 
+		</td>
+		<td>
+			{{i.name}} 
+		</td>
+		<td>
+			{{i.hostel}} 
+		</td>
+		<td>
+			{{i.room_no}} 
+		</td>
+		<td>
+			{{i.mobile_no}} 
+		</td>
+
+		<td>
+			{{ i.cycle_brand }}
+			
+		</td>
+		<td>
+			{{ i.cycle_type }}
+			
+		</td>
+		<td>
+			{{ i.cycle_description }}
+		</td>
+		<td>
+			Already Requested
+		</td>
+		<td>
+			<form method="post" action="/polls/requestCycle">
+				{%csrf_token%}
+				<input type="hidden" name="id" value={{i.id}}>
+				<button type="submit">Request</button>
+			</form>
+		</td>
+	</tr>
+	{% endfor %}
+
+</table>
+
+
+<hr>
+<h2>Pending Requests</h2>
+
+<table>
+	<tr>
+		<th>Cycle Brand</th>
+		<th>Cycle Type</th>
+		<th>Roll No</th>
+		<th>Name</th>
+		<th>Mobile No</th>
+		<th>Approve</th>
+		<th>Reject</th>
+	</tr>
+	{% for i in requestList %}
+	<tr>
+		<td>
+			{{i.cycle_brand}} 
+		</td>
+		<td>
+			{{i.cycle_type}} 
+		</td>
+		<td>
+			{{i.roll_no}} 
+		</td>
+		<td>
+			{{i.name}} 
+		</td>
+		<td>
+			{{i.mobile_no}} 
+		</td>
+		<td>
+			<form method="post" action="/polls/approveRequest">
+				{%csrf_token%}
+				<input type="hidden" name="id" value={{i.id}}>
+				<button type="submit">Approve</button>
+			</form>
+		</td>
+		<td>
+			<form method="post" action="/polls/rejectRequest">
+				{%csrf_token%}
+				<input type="hidden" name="id" value={{i.id}}>
+				<button type="submit">Reject</button>
+			</form>
+		</td>
+	</tr>
+	{% endfor %}
+
+</table>
